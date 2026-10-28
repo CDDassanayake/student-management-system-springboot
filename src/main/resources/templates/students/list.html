@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Students')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: header}"></header>
+<main>
+  <p class="flash" role="status" th:if="${message}" th:text="${message}"></p>
+
+  <form class="search" method="get" th:action="@{/students}" role="search">
+    <label for="q" class="sr">Search students</label>
+    <input id="q" name="q" th:value="${q}" placeholder="Search by ID, name or course">
+    <button class="btn" type="submit">Search</button>
+    <a class="link" th:if="${!#strings.isEmpty(q)}" th:href="@{/students}">Clear</a>
+  </form>
+
+  <table class="records" th:unless="${#lists.isEmpty(students)}">
+    <thead><tr><th>ID</th><th>Name</th><th>Course</th><th>Year</th><th>Email</th><th></th></tr></thead>
+    <tbody>
+      <tr th:each="s : ${students}">
+        <td data-label="ID" th:text="${s.studentId}"></td>
+        <td data-label="Name"><a class="link" th:href="@{/students/{id}(id=${s.id})}" th:text="${s.name}"></a></td>
+        <td data-label="Course" th:text="${s.course}"></td>
+        <td data-label="Year" th:text="${s.studyYear}"></td>
+        <td data-label="Email" th:text="${s.email}"></td>
+        <td class="actions">
+          <a class="link" th:href="@{/students/{id}/edit(id=${s.id})}">Edit</a>
+          <form method="post" th:action="@{/students/{id}/delete(id=${s.id})}"
+                onsubmit="return confirm('Delete this student? This cannot be undone.')">
+            <button class="link danger" type="submit">Delete</button>
+          </form>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <p class="count" th:unless="${#lists.isEmpty(students)}" th:text="${#lists.size(students)} + ' student(s)'"></p>
+
+  <p class="empty" th:if="${#lists.isEmpty(students) and !#strings.isEmpty(q)}"
+     th:text="'No students match “' + ${q} + '”. Try a different ID, name or course.'"></p>
+  <p class="empty" th:if="${#lists.isEmpty(students) and #strings.isEmpty(q)}">
+    No students yet. <a class="link" th:href="@{/students/new}">Add the first student</a>.
+  </p>
+</main>
+</body>
+</html>

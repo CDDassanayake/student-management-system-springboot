@@ -1,0 +1,11 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Not found')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: header}"></header>
+<main>
+  <h1>Student not found</h1>
+  <p class="empty">That record doesn't exist or was deleted. <a class="link" th:href="@{/students}">Back to all students</a>.</p>
+</main>
+</body>
+</html>

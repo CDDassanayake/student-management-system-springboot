@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head(${editing} ? 'Edit student' : 'Add student')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: header}"></header>
+<main>
+  <h1 th:text="${editing} ? 'Edit student' : 'Add student'"></h1>
+  <form class="card form" method="post" novalidate th:object="${student}"
+        th:action="${editing} ? @{/students/{id}(id=${recordId})} : @{/students}">
+
+    <div class="field" th:classappend="${#fields.hasErrors('studentId')} ? 'has-error'">
+      <label for="studentId">Student ID</label>
+      <input id="studentId" th:field="*{studentId}" required>
+      <p class="error" th:if="${#fields.hasErrors('studentId')}" th:errors="*{studentId}"></p>
+    </div>
+
+    <div class="field" th:classappend="${#fields.hasErrors('name')} ? 'has-error'">
+      <label for="name">Full name</label>
+      <input id="name" th:field="*{name}" required>
+      <p class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
+    </div>
+
+    <div class="field" th:classappend="${#fields.hasErrors('email')} ? 'has-error'">
+      <label for="email">Email</label>
+      <input id="email" type="email" th:field="*{email}" required>
+      <p class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+    </div>
+
+    <div class="field" th:classappend="${#fields.hasErrors('phone')} ? 'has-error'">
+      <label for="phone">Phone (optional)</label>
+      <input id="phone" type="tel" th:field="*{phone}">
+      <p class="error" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></p>
+    </div>
+
+    <div class="field" th:classappend="${#fields.hasErrors('course')} ? 'has-error'">
+      <label for="course">Course</label>
+      <input id="course" th:field="*{course}" required>
+      <p class="error" th:if="${#fields.hasErrors('course')}" th:errors="*{course}"></p>
+    </div>
+
+    <div class="field" th:classappend="${#fields.hasErrors('studyYear')} ? 'has-error'">
+      <label for="studyYear">Year of study</label>
+      <select id="studyYear" th:field="*{studyYear}" required>
+        <option value="">Choose year</option>
+        <option th:each="y : ${#numbers.sequence(1, 6)}" th:value="${y}" th:text="'Year ' + ${y}"></option>
+      </select>
+      <p class="error" th:if="${#fields.hasErrors('studyYear')}" th:errors="*{studyYear}"></p>
+    </div>
+
+    <div class="row">
+      <button class="btn" type="submit" th:text="${editing} ? 'Save changes' : 'Add student'"></button>
+      <a class="link" th:href="${editing} ? @{/students/{id}(id=${recordId})} : @{/students}">Cancel</a>
+    </div>
+  </form>
+</main>
+</body>
+</html>

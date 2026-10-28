@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head(${s.name})}"></head>
+<body>
+<header th:replace="~{fragments/layout :: header}"></header>
+<main>
+  <p class="flash" role="status" th:if="${message}" th:text="${message}"></p>
+  <h1 th:text="${s.name}"></h1>
+  <dl class="card details">
+    <div><dt>Student ID</dt><dd th:text="${s.studentId}"></dd></div>
+    <div><dt>Course</dt><dd th:text="${s.course}"></dd></div>
+    <div><dt>Year of study</dt><dd th:text="'Year ' + ${s.studyYear}"></dd></div>
+    <div><dt>Email</dt><dd th:text="${s.email}"></dd></div>
+    <div><dt>Phone</dt><dd th:text="${s.phone != null} ? ${s.phone} : 'Not provided'"></dd></div>
+    <div><dt>Added</dt><dd th:text="${#temporals.format(s.createdAt, 'dd MMM yyyy, HH:mm')}"></dd></div>
+  </dl>
+  <div class="row">
+    <a class="btn" th:href="@{/students/{id}/edit(id=${s.id})}">Edit details</a>
+    <form method="post" th:action="@{/students/{id}/delete(id=${s.id})}"
+          onsubmit="return confirm('Delete this student? This cannot be undone.')">
+      <button class="link danger" type="submit">Delete record</button>
+    </form>
+    <a class="link" th:href="@{/students}">Back to all students</a>
+  </div>
+</main>
+</body>
+</html>

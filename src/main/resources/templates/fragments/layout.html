@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head(title)">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title th:text="${title} + ' · Student Records'">Students</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<header class="top" th:fragment="header">
+  <a class="brand" th:href="@{/students}">Student Records</a>
+  <a class="btn" th:href="@{/students/new}">Add student</a>
+</header>
+</body>
+</html>
